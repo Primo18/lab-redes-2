@@ -1,8 +1,8 @@
-# Transferencia de archivos en TCP con cifrado simétrico
+# Servidor HTTP Simple
 
 ## Descripción
-* El proyecto transfiere archivos entre un cliente y un servidor usando el protocolo TCP. 
-* El servidor escucha en el puerto 10000 y espera conexiones de clientes. 
+* El proyecto consiste en un servidor HTTP simple que recibe peticiones GET.
+* El servidor escucha en el puerto 10080 y espera conexiones de clientes. 
 * Una vez que un cliente se conecta, el servidor recibe un archivo y lo guarda en el directorio `archivos-servidor`. 
 * El cliente envia archivos desde el directorio `archivos-cliente`.
 * Se comprueba la integridad de los archivos usando el algoritmo MD5.

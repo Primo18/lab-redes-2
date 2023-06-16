@@ -2,7 +2,7 @@
 #include "hash.h"
 
 #define FILENAME "archivo.txt"
-#define SERVER_PORT 10000
+#define SERVER_PORT 10080
 
 static void send_file(const char *filepath, int sock)
 {
