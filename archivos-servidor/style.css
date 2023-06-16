@@ -10,3 +10,11 @@ h1 {
     text-align: center;
     color: red;
 }
+
+/*  centrar contenido de la etiqueta main */
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
