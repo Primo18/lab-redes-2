@@ -3,7 +3,7 @@
 #include <sys/stat.h>
 
 static void handle_http_request(const char *save_dir, const char *request, int client_sock);
-static void send_response(int client_sock, int status_code, const char *status_text, const char *content_type, const char *content);
+static void send_response(int client_sock, int status_code, const char *status_text, const char *content_type, const char *content, size_t content_length);
 
 int main(void)
 {
@@ -49,7 +49,7 @@ static void handle_http_request(const char *save_dir, const char *request, int c
     if (strcmp(method, "GET") != 0)
     {
         // Método no permitido (405 Method Not Allowed)
-        send_response(client_sock, 405, "Method Not Allowed", "text/plain", "Method not allowed");
+        send_response(client_sock, 405, "Method Not Allowed", "text/plain", "Method not allowed", strlen("Method not allowed"));
         return;
     }
 
@@ -70,7 +70,7 @@ static void handle_http_request(const char *save_dir, const char *request, int c
     if (file == NULL)
     {
         // Archivo no encontrado (404 Not Found)
-        send_response(client_sock, 404, "Not Found", "text/plain", "File not found");
+        send_response(client_sock, 404, "Not Found", "text/plain", "File not found", strlen("File not found"));
         return;
     }
 
@@ -115,25 +115,27 @@ static void handle_http_request(const char *save_dir, const char *request, int c
     fread(file_content, file_size, 1, file);
 
     // Enviar la respuesta HTTP exitosa (200 OK) con el contenido del archivo
-    send_response(client_sock, 200, "OK", content_type, file_content);
+    send_response(client_sock, 200, "OK", content_type, file_content, file_size);
 
     // Liberar la memoria y cerrar el archivo
     free(file_content);
     fclose(file);
 }
 
-static void send_response(int client_sock, int status_code, const char *status_text, const char *content_type, const char *content)
+static void send_response(int client_sock, int status_code, const char *status_text, const char *content_type, const char *content, size_t content_length)
 {
     // Construir el encabezado de la respuesta HTTP
-    char response[1024];
-    snprintf(response, sizeof(response),
+    char header[1024];
+    snprintf(header, sizeof(header),
              "HTTP/1.1 %d %s\r\n"
              "Content-Type: %s\r\n"
              "Content-Length: %zu\r\n"
-             "\r\n"
-             "%s",
-             status_code, status_text, content_type, strlen(content), content);
+             "\r\n",
+             status_code, status_text, content_type, content_length);
 
-    // Enviar la respuesta al cliente
-    tcp_send(client_sock, response, strlen(response));
+    // Enviar el encabezado al cliente
+    tcp_send(client_sock, header, strlen(header));
+
+    // Enviar el contenido al cliente
+    tcp_send(client_sock, content, content_length);
 }
