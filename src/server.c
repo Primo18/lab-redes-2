@@ -1,5 +1,4 @@
 #include "tcp.h"
-#include "hash.h"
 #include <sys/stat.h>
 
 static void handle_http_request(const char *save_dir, const char *request, int client_sock);
