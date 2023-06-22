@@ -34,7 +34,8 @@ $ ./server
 # Acceder al navegador y escribir la siguiente dirección: localhost:10080/index.html
 ```
 ## Imagen de prueba
-![Alt text](image.png)
+![Alt text](estructura.png)  
+![Alt text](test.png)
 
 
 ## Autores
