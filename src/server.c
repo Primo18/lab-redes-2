@@ -48,7 +48,10 @@ static void handle_http_request(const char *save_dir, const char *request, int c
     if (strcmp(method, "GET") != 0)
     {
         // Método no permitido (405 Method Not Allowed)
-        send_response(client_sock, 405, "Method Not Allowed", "text/plain", "Method not allowed", strlen("Method not allowed"));
+        // send_response(client_sock, 405, "Method Not Allowed", "text/plain", "Method not allowed", strlen("Method not allowed"));
+        // mostrar mensaje html con el codigo de error y el mensaje
+        send_response(client_sock, 405, "Method Not Allowed", "text/html", "<html><head><title>405 Method Not Allowed</title></head><body><h1>405 Method Not Allowed</h1><p>Method not allowed</p></body></html>", strlen("<html><head><title>405 Method Not Allowed</title></head><body><h1>405 Method Not Allowed</h1><p>Method not allowed</p></body></html>"));
+
         return;
     }
 
@@ -69,7 +72,9 @@ static void handle_http_request(const char *save_dir, const char *request, int c
     if (file == NULL)
     {
         // Archivo no encontrado (404 Not Found)
-        send_response(client_sock, 404, "Not Found", "text/plain", "File not found", strlen("File not found"));
+        send_response(client_sock, 404, "Not Found", "text/html", "<html><head><title>404 Not Found</title></head><body><h1>404 Not Found</h1><p>File not found</p></body></html>", strlen("<html><head><title>404 Not Found</title></head><body><h1>404 Not Found</h1><p>File not found</p></body></html>"));
+        // send_response(client_sock, 404, "Not Found", "text/plain", "File not found", strlen("File not found"));
+        // mostrar mensaje html con el codigo de error y el mensaje
         return;
     }
 
